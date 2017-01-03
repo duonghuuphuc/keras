@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Keras HelloWorld | DHPIT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A HelloWorld Example with Keras | DHPIT" />
+    <meta name="keywords" content="Keras,Theano,HelloWorld,Phuc Duong,Duong Huu Phuc,Phuc H. Duong,Dương Hữu Phúc,Vương Gia Luân" />
+    <meta property="og:title" content="Keras HelloWorld | DHPIT" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://keras.dhpit.com" />
+    <meta property="og:image" content="http://keras.dhpit.com/img/dhp.png" />
+    <meta property="og:description" content="A HelloWorld Example with Keras | DHPIT" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+    <link rel="author" href="https://plus.google.com/+HuuPhucDuong" />
+</head>
+
+<body>
+    <section class="page-header">
+        <h1 class="project-name">Keras HelloWorld</h1>
+        <h2 class="project-tagline">Working with Keras in Windows Environment</h2>
+        <a href="https://github.com/duonghuuphuc/keras" class="btn" target="_blank">View on GitHub</a>
+        <a href="https://github.com/duonghuuphuc/keras/zipball/master" class="btn" target="_blank">Download .zip</a>
+        <a href="https://github.com/duonghuuphuc/keras/tarball/master" class="btn" target="_blank">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+        <h2>
+          <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction
+        </h2>
+
+        <p>
+            There are many framework in working with Artificial Neural Networks (ANNs), for example, Torch, TensorFlow. In this tutorial, we present a framework, <a href="http://deeplearning.net/software/theano/" target="_blank">Theano</a>, to create and evaluate ANN models in Microsoft Windows Environment.
+        </p>
+
+        <p>
+            <strong>Content</strong>
+            <ol class="task-list">
+                <li><a href="#prerequisites">Prerequisites</a></li>
+                <li><a href="#neural-network-with-torch">Neural Network with Torch</a></li>
+                <ol class="task-list">
+                    <li><a href="#model">Model</a></li>
+                    <li><a href="#training">Training</a></li>
+                    <li><a href="#data">Data</a></li>
+                    <li><a href="#evaluation">Evaluation</a></li>
+                </ol>
+                <li><a href="#contributors">Contributors</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ol>
+        </p>
+
+        <h2>
+          <a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites
+        </h2>
+
+        <p>
+            In order to work with this example program, and also to know how Theano works, you need to have the following prerequisites:
+            <ul class="task-list">
+                <li>Microsoft Windows 10 (Build 1607), aka Windows 10 Anniversary Update or higher versions</li>
+                <li><strong>Bash on Ubuntu on Windows</strong> must be enabled [<a href="https://msdn.microsoft.com/en-us/commandline/wsl/install_guide" target="_blank">Readme</a>]</li>
+                <li><strong>Keras</strong> with <strong>Theano</strong> backend in virtual Ubuntu on Windows must be installed [<a href="http://www.pyimagesearch.com/2016/07/18/installing-keras-for-deep-learning/" target="_blank">Readme</a>]</li>
+                <li>Basic understanding of <strong>Python</strong> programming language [<a href="https://www.tutorialspoint.com/python/" target="_blank">Readme</a>]</li>
+                <li>Basic understanding of machine learning, artificial neural network [<a href="http://cs229.stanford.edu/" target="_blank">ML</a> | <a href="https://en.wikipedia.org/wiki/Artificial_neural_network" target="_blank">ANN</a>]</li>
+            </ul>
+        </p>
+
+        <h2>
+          <a id="your-first-neural-network-in-keras" class="anchor" href="#your-first-neural-network-in-keras" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Your First Neural Network in Keras
+        </h2>
+
+        <p>
+            In the following Python program, you will go through the steps to build and evaluate an ANN model on the <code>pima-indians-diabetes</code> dataset. The program includes 5 main steps as follows:
+            <ul>
+              <li>
+                Loading dataset
+              </li>
+              <li>
+                Defining model
+              </li>
+              <li>
+                Compiling model
+              </li>
+              <li>
+                Inputing dataset into model
+              </li>
+              <li>
+                Evaluating model
+              </li>
+            </ul>
+
+            <pre>
+              <code>
+                <span style="color:green"># create first network with Keras</span>
+                from keras.models import Sequential
+                from keras.layers import Dense
+                import numpy
+                <br />
+                <span style="color:green"># fix random seed for reproducibility</span>
+                seed = 7
+                numpy.random.seed(seed)
+                <br />
+                <span style="color:green"># load pima indians dataset</span>
+                dataset = numpy.loadtxt("pima-indians-diabetes.csv", delimiter=",")
+                <br />
+                <span style="color:green"># split into input (X) and output (Y) variables</span>
+                X = dataset[:,0:8]
+                Y = dataset[:,8]
+                <br />
+                <span style="color:green"># create model</span>
+                model = Sequential()
+                model.add(Dense(12, input_dim=8, init='uniform', activation='relu'))
+                model.add(Dense(8, init='uniform', activation='relu'))
+                model.add(Dense(1, init='uniform', activation='sigmoid'))
+                <br />
+                <span style="color:green"># compile model</span>
+                model.compile(loss='binary_crossentropy' , optimizer='adam', metrics=['accuracy'])
+                <br />
+                <span style="color:green"># input the dataset into created model</span>
+                model.fit(X, Y, nb_epoch=150, batch_size=10)
+                <br />
+                <span style="color:green"># evaluate the model</span>
+                scores = model.evaluate(X, Y)
+                print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+              </code>
+            </pre>
+
+            <!-- INSERT IMAGE HERE -->
+
+            The above image illustrates the defined <code>ANN</code> model. After programming your prefer <code>ANN</code> model, now, compile and run it in Keras environment by using the following steps:
+            <ul>
+              <li>
+                Open <code>Bash on Ubuntu on Windows</code> and change the directory to the project location. You need to put both the program and dataset in the same location.
+              </li>
+              <li>
+                Type the command <code style="color:blue">workon keras</code>
+              </li>
+              <li>
+                Then, <code style="color:blue">python sample.py</code>
+              </li>
+            </ul>
+        </p>
+
+        <h2>
+          <a id="handwritten-digit-recognition" class="anchor" href="#handwritten-digit-recognition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Handwritten Digit Recognition
+        </h2>
+
+
+
+        <h2>
+          <a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors
+        </h2>
+
+        <p>
+            <ul class="task-list">
+                <li>Phuc Duong - <a href="mailto:huuphucduong@gmail.com">huuphucduong@gmail.com</a></li>
+                <li>Luan Vuong <em>(Student)</em> - <a href="mailto:luanvuonggia@gmail.com">luanvuonggia@gmail.com</a></li>
+            </ul>
+        </p>
+
+        <h2>
+          <a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact
+                    </h2>
+
+                    <p>
+                        This tutorial may contain mistakes, please feel free to send us your feedback via email!
+                    </p>
+
+                    <!-- FOOTER -->
+                    <footer class="site-footer">
+                        <span class="site-footer-owner"><a href="https://github.com/duonghuuphuc/torch-helloworld" target="_blank">Torch HelloWorld</a> is maintained by <a href="http://it.tdt.edu.vn/~dhphuc/" target="_blank" title="Lecturer, Faculty of Information Technology, Ton Duc Thang University, Vietnam">Phuc Duong</a>.</span>
+                        <span class="site-footer-credits">&copy; 2016 DHPIT.</span>
+                    </footer>
+
+    </section>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-53332340-5', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    <!-- Google Analytics -->
+
+
+</body>
+
+</html>
