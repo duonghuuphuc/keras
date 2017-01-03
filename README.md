@@ -12,7 +12,7 @@ Website: http://keras.dhpit.com/
 
 ## Contributors##
  1. Phuc Duong - huuphucduong@gmail.com
- 2. Luan Vuong (Student) - luanvuonggia@gmail.com
+ 2. Luan Vuong - luanvuonggia@gmail.com
 
 ## Contact##
 This tutorial may contain mistakes, please feel free to send us your feedback via email!
