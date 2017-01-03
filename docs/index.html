@@ -43,13 +43,9 @@
             <strong>Content</strong>
             <ol class="task-list">
                 <li><a href="#prerequisites">Prerequisites</a></li>
-                <li><a href="#neural-network-with-torch">Neural Network with Torch</a></li>
-                <ol class="task-list">
-                    <li><a href="#model">Model</a></li>
-                    <li><a href="#training">Training</a></li>
-                    <li><a href="#data">Data</a></li>
-                    <li><a href="#evaluation">Evaluation</a></li>
-                </ol>
+                <li><a href="#your-first-neural-network-in-keras">Your First Neural Network in Keras</a></li>
+                <li><a href="#handwritten-digit-recognition">Convolutional Neural Network in Handwritten Digit Recognition</a></li>
+                <li><a href="#references">References</a></li>
                 <li><a href="#contributors">Contributors</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ol>
@@ -130,6 +126,7 @@
               </code>
             </pre>
 
+            <img src="img/nn.png" alt="Neural Network Model" title="Neural network model with 8-d input, 2 hidden layers, and 1-d output.">
             <!-- INSERT IMAGE HERE -->
 
             The above image illustrates the defined <code>ANN</code> model. After programming your prefer <code>ANN</code> model, now, compile and run it in Keras environment by using the following steps:
@@ -150,7 +147,77 @@
           <a id="handwritten-digit-recognition" class="anchor" href="#handwritten-digit-recognition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Handwritten Digit Recognition
         </h2>
 
+        <p>
+          At this point, you completed your first beginning program with Keras. Now, let's dive into something interested, computer vision. We present a basic demo with Convolutional Neural Network (CNN) with handwritten digit recognition problem. The program is available at this repository, named <code style="color:red">mnist_cnn.py</code>.<br />
+          <!-- gioi thieu dataset -->
+          Like your first program, in this example, first, we need to read the input dataset. Each image is represented as matrix with <code>28 x 28</code> dimension. Next, we define size of pooling area for max pooling. Then, define the number of convolutional filters (feature detectors) to be used and the size of them also.
+          <pre>
+            <code>
+              <span style="color:green"># input image dimensions</span>
+              img_rows, img_cols = 28, 28
+              <span style="color:green"># number of convolutional filters to use</span>
+              nb_filters = 32
+              <span style="color:green"># convolution kernel size</span>
+              kernel_size = (3, 3)
+              <span style="color:green"># size of pooling area for max pooling</span>
+              pool_size = (2, 2)
+            </code>
+          </pre>
+          Second, we reshape all image to <code>28 x 28</code> dimension by calling the defined <code style="color:blue">reshape</code> function in Keras (in line 35). The function contains four arguments <code style="color:blue">(samples, channels, height, width)</code>, where <code style="color:blue">channels</code> is <code>0</code> or <code>3</code>, which means, gray-scale or RGB mode, respectively.<br />
+          Third, we define the CNN model as follows:<br />
+          <pre>
+            <code>
+              <span style="color:green"># define model</span>
+              model = Sequential()<br />
+              model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1],
+                                      <span style="color:red">border_mode</span>=<span style="color:blue">'valid'</span>,
+                                      <span style="color:red">input_shape</span>=input_shape))
+              model.add(Activation(<span style="color:blue">'relu'</span>))
+              model.add(Convolution2D(nb_filters, kernel_size[0], kernel_size[1]))
+              model.add(Activation(<span style="color:blue">'relu'</span>))
+              model.add(MaxPooling2D(pool_size=pool_size))
+              model.add(Dropout(0.25))<br />
 
+              model.add(Flatten())
+              model.add(Dense(128))
+              model.add(Activation(<span style="color:blue">'relu'</span>))
+              model.add(Dropout(0.5))
+              model.add(Dense(nb_classes))
+              model.add(Activation(<span style="color:blue">'softmax'</span>))<br />
+
+              <span style="color:green"># compile model</span>
+              model.compile(loss=<span style="color:blue">'categorical_crossentropy'</span>,
+                            <span style="color:red">optimizer</span>=<span style="color:blue">'adadelta'</span>,
+                            <span style="color:red">metrics</span>=[<span style="color:blue">'accuracy'</span>])
+            </code>
+          </pre>
+          Forth, after define the model, now input the dataset into it and then, run and evaluate.
+          <pre>
+            <code>
+              <span style="color:green"># input the dataset</span>
+              model.fit(<span style="color:blue">X_train</span>, <span style="color:blue">Y_train</span>,
+                        <span style="color:red">batch_size</span>=batch_size,
+                        <span style="color:red">nb_epoch</span>=nb_epoch,
+                        <span style="color:red">verbose</span>=<span style="color:blue">1</span>,
+                        <span style="color:red">validation_data</span>=(<span style="color:blue">X_test</span>, <span style="color:blue">Y_test</span>))<br />
+              score = model.evaluate(<span style="color:blue">X_test</span>, <span style="color:blue">Y_test</span>, <span style="color:red">verbose</span>=0)<br />
+              print(<span style="color:blue">'Test score:'</span>, score[0])
+              print(<span style="color:blue">'Test accuracy:'</span>, score[1])
+            </code>
+          </pre>
+        </p>
+
+        <h2>
+          <a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References
+        </h2>
+
+        <p>
+          <ol>
+            <li>
+              Machine Learning Mastery - <a href="https://goo.gl/2EovtJ" target="_blank">https://goo.gl/2EovtJ</a>
+            </li>
+          </ol>
+        </p>
 
         <h2>
           <a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors
@@ -174,7 +241,7 @@
         <!-- FOOTER -->
         <footer class="site-footer">
             <span class="site-footer-owner"><a href="https://github.com/duonghuuphuc/keras" target="_blank">Keras HelloWorld</a> is maintained by <a href="http://it.tdt.edu.vn/~dhphuc/" target="_blank" title="Lecturer, Faculty of Information Technology, Ton Duc Thang University, Vietnam">Phuc Duong</a>.</span>
-            <span class="site-footer-credits">&copy; 2016 DHPIT.</span>
+            <span class="site-footer-credits">&copy; 2017 DHPIT.</span>
         </footer>
 
     </section>
