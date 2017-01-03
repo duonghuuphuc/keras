@@ -149,6 +149,7 @@
 
         <p>
           At this point, you completed your first beginning program with Keras. Now, let's dive into something interested, computer vision. We present a basic demo with Convolutional Neural Network (CNN) with handwritten digit recognition problem. The program is available at this repository, named <code style="color:red">mnist_cnn.py</code>.<br />
+          There are few standard datasets in digit recognition problem, thus, in this tutorial, we use the <a href="http://yann.lecun.com/exdb/mnist/" target="_blank">MNIST</a> dataset, which contains 70,000 images of handwritten numbers from 0 to 9. The digit in each image has been size-normalized and centered in a fixed-size.<br />
           <!-- gioi thieu dataset -->
           Like your first program, in this example, first, we need to read the input dataset. Each image is represented as matrix with <code>28 x 28</code> dimension. Next, we define size of pooling area for max pooling. Then, define the number of convolutional filters (feature detectors) to be used and the size of them also.
           <pre>
@@ -200,6 +201,7 @@
                         <span style="color:red">nb_epoch</span>=nb_epoch,
                         <span style="color:red">verbose</span>=<span style="color:blue">1</span>,
                         <span style="color:red">validation_data</span>=(<span style="color:blue">X_test</span>, <span style="color:blue">Y_test</span>))<br />
+              <span style="color:green"># evaluate model</span>
               score = model.evaluate(<span style="color:blue">X_test</span>, <span style="color:blue">Y_test</span>, <span style="color:red">verbose</span>=0)<br />
               print(<span style="color:blue">'Test score:'</span>, score[0])
               print(<span style="color:blue">'Test accuracy:'</span>, score[1])
